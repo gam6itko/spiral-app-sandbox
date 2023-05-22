@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      ZOO_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local-sandbox
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+  app-producer:
+    build: ./docker/roadrunner
+    entrypoint: /docker-entrypoint.sh
+    working_dir: /srv
+    volumes:
+      - ./src/app-producer:/srv
+      - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
+    depends_on:
+      - kafka
+    environment:
+      PHP_IDE_CONFIG: serverName=app-producer
+
+  app-consumer:
+    build: ./docker/roadrunner
+    entrypoint: /docker-entrypoint.sh
+    working_dir: /srv
+    volumes:
+      - ./src/app-consumer:/srv
+      - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
+    depends_on:
+      - kafka
+    environment:
+      PHP_IDE_CONFIG: serverName=app-consumer
