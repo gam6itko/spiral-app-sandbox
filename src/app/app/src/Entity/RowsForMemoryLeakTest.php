@@ -9,7 +9,7 @@ use Cycle\Annotated\Annotation as Cycle;
 #[Cycle\Entity(table: 'rows_for_memory_leak_test')]
 class RowsForMemoryLeakTest
 {
-    #[Cycle\Column(type: 'string(32)', primary: true, unsigned: true)]
+    #[Cycle\Column(type: 'string(36)', primary: true, unsigned: true)]
     private ?string $id = null;
 
     #[Cycle\Column(type: 'string(10)', default: 'bar')]

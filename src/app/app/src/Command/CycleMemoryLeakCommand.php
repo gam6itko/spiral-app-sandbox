@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use BestChange\Be\Cmn\CurrencyRateFetcher\CbrfRateFetcher;
-use BestChange\Be\Cmn\CurrencyRateFetcher\HitBtcRateFetcher;
-use BestChange\Be\Cmn\CurrencyRateFetcher\StableCoinFetcher;
 use Cycle\Database\DatabaseInterface;
-use Ramsey\Uuid\Uuid;
+use Cycle\ORM\FactoryInterface;
+use Spiral\Boot\EnvironmentInterface;
 use Spiral\Console\Attribute as Console;
 use Spiral\Console\Command;
+use SpiralPackages\Profiler\Profiler;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[Console\AsCommand(
@@ -22,8 +21,11 @@ final class CycleMemoryLeakCommand extends Command
     #[Console\Option(name: 'max', shortcut: 'm')]
     private int $max = 1_000;
 
-    #[Console\Option(name: 'sleep', shortcut: 's')]
-    private int $sleepSec = 1;
+    #[Console\Option(name: 'step', shortcut: 's')]
+    private int $step = 10;
+
+    #[Console\Option(name: 'sleep', shortcut: 'u')]
+    private int $sleepUs = 1_000_000;
 
     public function __construct(
         private readonly DatabaseInterface $db,
@@ -32,15 +34,25 @@ final class CycleMemoryLeakCommand extends Command
         parent::__construct();
     }
 
-    protected function perform(OutputInterface $output): void
+    protected function perform(OutputInterface $output, FactoryInterface $factory, EnvironmentInterface $env): void
     {
-        $i =0;
-        while($i< $this->max) {
-            $rowsCount = rand(1, 1000);
+        $profiler = $factory->make(Profiler::class, [
+            'appName' => $env->get('PROFILER_APP_NAME', 'Spiral'),
+        ]);
+
+        $rowsCount = $this->step;
+        while ($rowsCount < $this->max) {
+            $profiler->start();
+
             [$query, $parameters] = $this->buildBatch($rowsCount);
             $output->writeln("Insert $rowsCount rows");
             $this->db->execute($query, $parameters);
-            \sleep($this->sleepSec);
+            \usleep($this->sleepUs);
+            $rowsCount += $this->step;
+
+            $profiler->end([
+                'rowsCount' => $rowsCount,
+            ]);
         }
     }
 
@@ -57,8 +69,12 @@ final class CycleMemoryLeakCommand extends Command
         $columnsCount = 4;
 
         $sql = <<<SQL
-INSERT INTO exchange_rate (`id`, `code`, `name`, `number`)
+INSERT INTO rows_for_memory_leak_test (`id`, `code`, `name`, `number`)
 VALUES %values%
+ON DUPLICATE KEY UPDATE  
+    `code` = VALUES(`code`), 
+    `name` = VALUES(`name`), 
+    `number` = VALUES(`number`)
 SQL;
 
         $rowTemplate = \sprintf(
@@ -82,27 +98,13 @@ SQL;
     {
         $result = [];
         for ($i = 0; $i < $rowsCount; $i++) {
-            $n = rand(1, 20);
             $result[] = [
-                Uuid::uuid7()->toString(),
-                $this->getRandomString(10),
-                $this->getRandomString($n),
-                $n,
+                "{$rowsCount}-{$i}",
+                (string)$rowsCount,
+                (string)$rowsCount,
+                $rowsCount,
             ];
         }
-        return $result;
-    }
-
-    private function getRandomString(int $n): string
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $result = '';
-
-        for ($i = 0; $i < $n; $i++) {
-            $index = rand(0, strlen($characters) - 1);
-            $result .= $characters[$index];
-        }
-
-        return $result;
+        return \array_merge(...$result);
     }
 }

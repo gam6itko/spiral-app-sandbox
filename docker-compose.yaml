@@ -13,6 +13,11 @@ services:
   buggregator:
     image: ghcr.io/buggregator/server:latest
     container_name: sas-buggregator
+    ports:
+      - 8000:8000
+      - 1025:1025
+      - 9912:9912
+      - 9913:9913
 #    environment:
 #      VIRTUAL_HOST: buggregator.bc.local
 #      VIRTUAL_PORT: 8000
