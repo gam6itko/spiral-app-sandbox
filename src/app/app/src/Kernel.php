@@ -9,10 +9,11 @@ use Spiral\Bootloader as Framework;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
-use Spiral\Prototype\Bootloader as Prototype;
+use Spiral\Profiler\ProfilerBootloader;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Validation\Bootloader\ValidationBootloader;
+use Spiral\Cycle\Bootloader as CycleBridge;
 
 class Kernel extends \Spiral\Framework\Kernel
 {
@@ -49,17 +50,27 @@ class Kernel extends \Spiral\Framework\Kernel
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,
-        Framework\Http\RouterBootloader::class,
-        Framework\Http\JsonPayloadsBootloader::class,
-        Framework\Http\CookiesBootloader::class,
-        Framework\Http\SessionBootloader::class,
-        Framework\Http\CsrfBootloader::class,
-        Framework\Http\PaginationBootloader::class,
+//        Framework\Http\RouterBootloader::class,
+//        Framework\Http\JsonPayloadsBootloader::class,
+//        Framework\Http\CookiesBootloader::class,
+//        Framework\Http\SessionBootloader::class,
+//        Framework\Http\CsrfBootloader::class,
+//        Framework\Http\PaginationBootloader::class,
 
         Framework\Views\TranslatedCacheBootloader::class,
 
+        // Databases
+        CycleBridge\DatabaseBootloader::class,
+        CycleBridge\MigrationsBootloader::class,
+
+        // ORM
+        CycleBridge\SchemaBootloader::class,
+        CycleBridge\CycleOrmBootloader::class,
+        CycleBridge\AnnotatedBootloader::class,
+
         // Framework commands
         Framework\CommandBootloader::class,
+        CycleBridge\CommandBootloader::class,
 
         // Debug and debug extensions
         Framework\DebugBootloader::class,
@@ -67,5 +78,7 @@ class Kernel extends \Spiral\Framework\Kernel
         Framework\Debug\HttpCollectorBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
+
+        ProfilerBootloader::class,
     ];
 }

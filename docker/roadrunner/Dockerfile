@@ -1,33 +1,26 @@
-FROM php:8.1
+# syntax=docker/dockerfile:1.4
+FROM php:8.2-cli-alpine3.18
 
-ENV ROADRUNNER_VERSION="2023.1.3"
+RUN apk add git wget
 
-RUN apt-get update \
-    && apt-get install -qqy \
-        apt-utils \
-        git \
-        gzip \
-        librdkafka-dev \
-        libxml2-dev \
-        libzip-dev \
-        wget \
-        unzip \
-    && docker-php-ext-install \
-        opcache \
-        sockets \
-    && pecl install \
-        rdkafka \
-    && docker-php-ext-enable \
-        rdkafka
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN curl -s https://getcomposer.org/installer -o installer.php \
-    && php installer.php --2 --install-dir=/usr/local/bin --filename=composer \
-    && rm -f installer.php
+COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN wget -q "https://github.com/roadrunner-server/roadrunner/releases/download/v${ROADRUNNER_VERSION}/roadrunner-${ROADRUNNER_VERSION}-linux-amd64.tar.gz" \
-    && tar -xzf roadrunner-${ROADRUNNER_VERSION}-linux-amd64.tar.gz \
-    && mv roadrunner-${ROADRUNNER_VERSION}-linux-amd64/rr /usr/local/bin/rr \
-    && chmod +x /usr/local/bin/rr \
-    && rm -rf roadrunner-${ROADRUNNER_VERSION}-linux-amd64*
+RUN install-php-extensions opcache pdo_mysql sockets xdebug xhprof \
+    && apk del --no-cache  ${PHPIZE_DEPS} ${BUILD_DEPENDS}
 
-#RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY --from=spiralscout/roadrunner:latest /usr/bin/rr /usr/bin/rr
+
+# Host system user id
+ARG UID=1000
+ARG GID=1000
+
+RUN addgroup -g ${GID} -S app-user \
+    && adduser --uid ${UID} --ingroup app-user -S -g app-user app-user
+
+EXPOSE 8080
+
+USER app-user
+
+WORKDIR /srv

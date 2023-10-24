@@ -1,7 +1,7 @@
 #!/bin/sh
 
 mkdir -p ./runtime
-chmod -R a+rw ./runtime
+#chmod -R a+rw ./runtime
 
 if [ ! -d ./vendor ]; then
   composer install

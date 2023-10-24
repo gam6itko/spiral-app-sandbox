@@ -1,56 +1,32 @@
 version: '3.1'
 
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper
+  mysql:
+    image: 'mysql:8.0'
+    command: '--authentication_policy=mysql_native_password'
+    container_name: sas-mysql
     environment:
-      ZOO_SERVER_ID: 1
-      ZOOKEEPER_CLIENT_PORT: 2181
+      MYSQL_ROOT_PASSWORD: root
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
 
-  kafka:
-    image: confluentinc/cp-kafka
-    depends_on:
-      - zookeeper
-    environment:
-      AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+  buggregator:
+    image: ghcr.io/buggregator/server:latest
+    container_name: sas-buggregator
+#    environment:
+#      VIRTUAL_HOST: buggregator.bc.local
+#      VIRTUAL_PORT: 8000
 
-  kafka-ui:
-    image: provectuslabs/kafka-ui
-    ports:
-      - "8080:8080"
-    depends_on:
-      - kafka
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local-sandbox
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-
-  app-producer:
+  app:
     build: ./docker/roadrunner
     entrypoint: /docker-entrypoint.sh
+    container_name: sas-app
     working_dir: /srv
     volumes:
-      - ./src/app-producer:/srv
+      - ./src/app:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
-    depends_on:
-      - kafka
     environment:
-      PHP_IDE_CONFIG: serverName=app-producer
+      PHP_IDE_CONFIG: serverName=app
 
-  app-consumer:
-    build: ./docker/roadrunner
-    entrypoint: /docker-entrypoint.sh
-    working_dir: /srv
-    volumes:
-      - ./src/app-consumer:/srv
-      - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
-    depends_on:
-      - kafka
-    environment:
-      PHP_IDE_CONFIG: serverName=app-consumer
+volumes:
+  mysql: ~
