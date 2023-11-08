@@ -1,11 +1,17 @@
 version: "3"
 
 rpc:
-  listen: tcp://0.0.0.0:6001
+  listen: tcp://127.0.0.1:6001
 
 server:
   command: "php app.php"
   relay: pipes
+
+jobs:
+  pool:
+    command: "php app.php"
+    num_workers: 1
+    debug: true
 
 logs:
   mode: development
