@@ -7,20 +7,20 @@ services:
     container_name: sas-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_sandbox
     cap_add:
       - SYS_NICE  # CAP_SYS_NICE
+    ports:
+      - "3366:3306"
 
   buggregator:
     image: ghcr.io/buggregator/server:latest
     container_name: sas-buggregator
     ports:
-      - 8000:8000
-      - 1025:1025
-      - 9912:9912
-      - 9913:9913
-#    environment:
-#      VIRTUAL_HOST: buggregator.bc.local
-#      VIRTUAL_PORT: 8000
+      - "8000:8000"
+      - "1025:1025"
+      - "9912:9912"
+      - "9913:9913"
 
   app:
     build: ./docker/roadrunner

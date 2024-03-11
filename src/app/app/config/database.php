@@ -10,6 +10,13 @@ use Gam6itko\Cycle\Database\Config\NyholmDsnConnectionConfig;
 return [
     'default' => env('DATABASE_DEFAULT_DRIVER', 'default'),
 
+    'logger' => [
+        'default' => null,
+        'drivers' => [
+            'runtime' => 'stdout'
+        ],
+    ],
+
     'databases' => [
         'default' => [
             'connection' => 'mysql.default',
