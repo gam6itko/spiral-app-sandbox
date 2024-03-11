@@ -15,6 +15,6 @@ class Passport
     #[Cycle\Column(type: 'string')]
     public string $number;
 
-    #[Cycle\Relation\BelongsTo(target: User::class, innerKey: 'user_id', indexCreate: false)]
+    #[Cycle\Relation\BelongsTo(target: User::class,  innerKey: 'user_id', nullable: true, indexCreate: false)]
     public User $user;
 }

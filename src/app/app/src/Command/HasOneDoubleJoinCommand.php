@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\Passport;
 use App\Entity\User;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORMInterface;
@@ -36,12 +37,25 @@ final class HasOneDoubleJoinCommand extends Command
         $result = $orm
             ->getRepository(User::class)
             ->select()
-            ->with('passport', ['method' => JoinableLoader::LEFT_JOIN])
+            ->with('passport', [
+                'method' => JoinableLoader::LEFT_JOIN,
+            ])
             ->where('passport.id', null)
             ->fetchAll();
 
         $output->writeln(
-            \sprintf('DOUBLE JOIN. we have %d users without passport', count($result))
+            \sprintf('BUTCHSTER WAY. we have %d users without passport', count($result))
+        );
+
+        $result = $orm
+            ->getRepository(User::class)
+            ->select()
+            ->with('passport', [
+                'where' => ['id' => null],
+                'method' => JoinableLoader::LEFT_JOIN,
+            ]);
+        $output->writeln(
+            \sprintf('WOLFY-J WAY. we have %d users without passport', count($result))
         );
     }
 
@@ -49,6 +63,20 @@ final class HasOneDoubleJoinCommand extends Command
     {
         $user = new User();
         $user->username = uniqid('test_username');
+
+
+        $passport = new Passport();
+        $passport->number = uniqid('test_passwort');
+
+        $user2 = new User();
+        $user2->username = uniqid('test_username');
+        $user2->passport = $passport;
+
+        (new EntityManager($orm))
+            ->persist($user)
+            ->persist($passport)
+            ->run();
+
         (new EntityManager($orm))->persist($user)->run();
     }
 }
