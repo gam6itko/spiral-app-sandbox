@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\User;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORMInterface;
+use Cycle\ORM\Select\JoinableLoader;
 use Spiral\Console\Attribute as Console;
 use Spiral\Console\Command;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +30,18 @@ final class HasOneDoubleJoinCommand extends Command
             ->fetchAll();
 
         $output->writeln(
-            \sprintf('we have %d users without passport', count($result))
+            \sprintf('DOUBLE JOIN. we have %d users without passport', count($result))
+        );
+
+        $result = $orm
+            ->getRepository(User::class)
+            ->select()
+            ->with('passport', ['method' => JoinableLoader::LEFT_JOIN])
+            ->where('passport.id', null)
+            ->fetchAll();
+
+        $output->writeln(
+            \sprintf('DOUBLE JOIN. we have %d users without passport', count($result))
         );
     }
 
