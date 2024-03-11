@@ -31,6 +31,10 @@ return [
             'driver' => 'roadrunner',
             'default' => 'local',
         ],
+        'roadrunner_a' => [
+            'driver' => 'roadrunner',
+            'default' => 'queue_a',
+        ],
     ],
 
     'pipelines' => [
