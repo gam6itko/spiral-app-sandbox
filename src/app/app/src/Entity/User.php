@@ -17,4 +17,9 @@ class User
 
     #[Cycle\Relation\HasOne(target: Passport::class, nullable: true, outerKey: 'user_id')]
     public ?Passport $passport = null;
+
+    public function __construct(string $username)
+    {
+        $this->username = $username;
+    }
 }
