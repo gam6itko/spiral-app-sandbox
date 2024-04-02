@@ -10,8 +10,8 @@ server:
 jobs:
   pool:
     command: "php app.php"
-    num_workers: 1
-    debug: true
+    num_workers: 7
+    debug: false
 
 logs:
   mode: development
