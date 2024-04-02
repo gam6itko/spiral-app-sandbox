@@ -12,6 +12,14 @@ jobs:
     command: "php app.php"
     num_workers: 7
     debug: false
+  consume:
+    - local
+  pipelines:
+    local:
+      driver: "memory"
+      config:
+        priority: 9
+        prefetch: 3
 
 logs:
   mode: development
