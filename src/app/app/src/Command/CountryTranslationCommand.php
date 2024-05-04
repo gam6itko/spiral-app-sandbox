@@ -7,10 +7,8 @@ namespace App\Command;
 use App\Entity\Country;
 use App\Entity\CountryTranslation;
 use App\Entity\Locale;
-use Cycle\Database\Injection\Fragment;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORMInterface;
-use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select\JoinableLoader;
 use Spiral\Console\Attribute as Console;
 use Spiral\Console\Command;
@@ -34,58 +32,22 @@ final class CountryTranslationCommand extends Command
     {
         $this->seed();
 
-        $localeId = 1;
+        $localeIdRu = 1;
 
         $list1 = $this->orm->getRepository(Country::class)
             ->select()
             ->with('translations', [
-                'as' => 'trans',
+                'as' => 'transRu',
                 'method' => JoinableLoader::LEFT_JOIN,
                 'where' => [
-                    'locale_id' => $localeId,
+                    'locale_id' => $localeIdRu,
                 ]
             ])
-            ->load('translations', [
-//                'using' => 'trans',
-                'method' => JoinableLoader::LEFT_JOIN,
-            ])
-            ->orderBy('trans.value')
-//            ->buildQuery()->columns('*, trans.value AS abc')
-//            ->orderBy('abc')
+            ->load('translations')
+            ->orderBy('transRu.value')
             ->fetchData();
 
-        $columns = $this->orm->getSchema()->define(Country::class, SchemaInterface::COLUMNS);
-//        \var_dump($columns);
-
-//
-//        $list2 = [];
-//        foreach ($list1 as $key => $item) {
-//            $item2 = [];
-//            foreach ($columns as $to => $from) {
-//                $item2[$to] = $item[$from];
-//            }
-//            $list2[] = $item2;
-//        }
-
-
         \print_r($list1);
-//        \var_dump($list2);
-
-        //SELECT `country`.`id` AS `c0`, `country`.`code` AS `c1`
-        //FROM `country` AS `country`
-        //LEFT JOIN `country_translation` AS `trans`
-        //    ON `trans`.`country_id` = `country`.`id` AND `trans`.`locale_id` = ?
-        //ORDER BY `trans`.`value` ASC
-
-//        $this->seed();
-//        $list1 = $this->example1('ru');
-//        assert(3 === count($list1));
-        $output->writeln('example1 - ru');
-        foreach ($list1 as $item) {
-            $output->writeln(\sprintf('%s   %s', $item['id'], $item['code']));
-        }
-
-//        $list2 = $this->example2('en');
     }
 
     private function seed(): void
@@ -129,33 +91,4 @@ final class CountryTranslationCommand extends Command
             ->persist($russiaEn)
             ->run();
     }
-
-    /**
-     * 2 queries
-     */
-    private function example1(string $locale): array
-    {
-        /** @var Locale $locale */
-        $locale = $this->orm->get(Locale::class, ['code' => $locale]);
-
-        $transList = $this->orm->getRepository(CountryTranslation::class)
-            ->select()
-            ->where('locale_id', $locale->id)
-            ->orderBy('value')
-            ->fetchData();
-        $idList = \array_column($transList, 'id');
-
-        return $this->orm->getRepository(Country::class)
-            ->select()
-            ->orderBy(
-                new Fragment(
-                    \sprintf(
-                        'FIELD(`id`, %s)',
-                        \implode(',', $idList)
-                    )
-                )
-            )
-            ->fetchData();
-    }
-
 }
