@@ -33,5 +33,11 @@ services:
     environment:
       PHP_IDE_CONFIG: serverName=app
 
+  adminer:
+    container_name: sas-adminer
+    image: adminer:4
+    depends_on:
+      - mysql
+
 volumes:
   mysql: ~

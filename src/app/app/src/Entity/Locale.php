@@ -15,8 +15,9 @@ class Locale
     #[Cycle\Column(type: 'string(5)')]
     public string $code;
 
-    public function __construct(string $code)
+    public function __construct(int $id, string $code)
     {
+        $this->id = $id;
         $this->code = $code;
     }
 }

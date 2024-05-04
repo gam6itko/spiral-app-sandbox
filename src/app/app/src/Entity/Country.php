@@ -15,8 +15,14 @@ class Country
     /**
      * ISO 3166-1 alpha-2. Uppercase.
      */
-    #[Cycle\Column(type: 'string(2)')]
+    #[Cycle\Column(type: 'string')]
     public string $code;
+
+    #[Cycle\Column(type: 'string', default: 'foo')]
+    private string $camelCasePropertyFoo;
+
+    #[Cycle\Column(type: 'string', default: 'bar')]
+    private string $camelCasePropertyBar;
 
     #[Cycle\Relation\HasMany(target: CountryTranslation::class)]
     public array $translations = [];
