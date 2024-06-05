@@ -9,9 +9,9 @@ kafka:
 server:
   command: "php app.php"
 #  command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"
-  env:
-    - XDEBUG_CONFIG: idekey='PHPSTORM'
-    - XDEBUG_MODE: debug
+#  env:
+#    - XDEBUG_CONFIG: idekey='PHPSTORM'
+#    - XDEBUG_MODE: debug
 
 http:
   pool:
