@@ -31,10 +31,6 @@ return [
             'driver' => 'roadrunner',
             'default' => 'local',
         ],
-        'roadrunner_a' => [
-            'driver' => 'roadrunner',
-            'default' => 'queue_a',
-        ],
     ],
 
     'pipelines' => [
@@ -42,14 +38,16 @@ return [
             'connector' => new MemoryCreateInfo('local'),
             'consume' => true,
         ],
-        'queue_a' => [
-            'connector' => new MemoryCreateInfo('queue_a', 64),
-            'consume' => true,
-        ],
     ],
 
     'driverAliases' => [
         'sync' => \Spiral\Queue\Driver\SyncDriver::class,
         'roadrunner' => \Spiral\RoadRunnerBridge\Queue\Queue::class,
+    ],
+
+    'registry' => [
+        'handlers' => [
+            'foo-bar' => \AppConsumer\Job\FooBarJobHandler::class
+        ],
     ],
 ];

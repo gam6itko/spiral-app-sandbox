@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace AppConsumer\Job;
 
-use Spiral\Queue\HandlerInterface;
+use Psr\Log\LoggerInterface;
+use Spiral\Queue\JobHandler;
 
-class FooBarJobHandler implements HandlerInterface
+class FooBarJobHandler extends JobHandler
 {
-    public function handle(string $name, string $id, array $payload): void
+    public function invoke(array $headers, LoggerInterface $logger): void
     {
-        dump($payload);
+        $logger->info('kafka foo-bar', $headers);
     }
 }

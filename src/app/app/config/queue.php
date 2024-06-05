@@ -32,10 +32,6 @@ return [
             'driver' => 'roadrunner',
             'default' => 'local',
         ],
-        'roadrunner_a' => [
-            'driver' => 'roadrunner',
-            'default' => 'queue_a',
-        ],
     ],
 
     'pipelines' => [
@@ -58,11 +54,5 @@ return [
     'driverAliases' => [
         'sync' => \Spiral\Queue\Driver\SyncDriver::class,
         'roadrunner' => \Spiral\RoadRunnerBridge\Queue\Queue::class,
-    ],
-
-    'registry' => [
-        'handlers' => [
-            'foo-bar' => \BestChange\AppENSS\Jobs\Ping::class,
-        ],
     ],
 ];

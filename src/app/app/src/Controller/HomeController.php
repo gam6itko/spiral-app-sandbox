@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use Spiral\Queue\Options;
 use Spiral\Queue\QueueManager;
 use Spiral\Router\Annotation\Route;
 
@@ -12,7 +13,12 @@ class HomeController
     #[Route(route: '/produce/kafka', methods: 'GET')]
     public function indexAction(QueueManager $qm): ResponseInterface
     {
-        $qm->getConnection('kafka')->push('foo-bar', ['foo' => 'bar']);
+        $qm->getConnection('roadrunner')
+            ->push(
+                'foo-bar',
+                ['foo' => 'bar'],
+                Options::onQueue('kafka')
+            );
 
         return new Response(
             status: 200,
