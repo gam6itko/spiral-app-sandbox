@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Kernel;
+use AppConsumer\Kernel;
 
 // If you forgot to configure some of this in your php.ini file,
 // then don't worry, we will set the standard environment

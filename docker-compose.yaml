@@ -25,6 +25,9 @@ services:
     entrypoint: /docker-entrypoint.sh
     container_name: sas-app
     working_dir: /srv
+    depends_on:
+      - mysql
+      - kafka
     volumes:
       - ./src/app:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
@@ -42,7 +45,9 @@ services:
       - ./src/app-consumer:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
     environment:
-      PHP_IDE_CONFIG: serverName=app
+      PHP_IDE_CONFIG: serverName=app-consumer
+    ports:
+      - "8081:8080"
 
   adminer:
     container_name: sas-adminer

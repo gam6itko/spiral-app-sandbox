@@ -33,10 +33,11 @@ class Kernel extends \Spiral\Framework\Kernel
         Monolog\MonologBootloader::class,
 
         // RoadRunner
-        RoadRunnerBridge\CacheBootloader::class,
-        // RoadRunnerBridge\GRPCBootloader::class,
         RoadRunnerBridge\HttpBootloader::class,
+        RoadRunnerBridge\GRPCBootloader::class,
         RoadRunnerBridge\QueueBootloader::class,
+        RoadRunnerBridge\CacheBootloader::class,
+        RoadRunnerBridge\CommandBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,
@@ -52,6 +53,7 @@ class Kernel extends \Spiral\Framework\Kernel
         Nyholm\NyholmBootloader::class,
         Framework\Http\RouterBootloader::class,
         Framework\Http\JsonPayloadsBootloader::class,
+        \Spiral\Router\Bootloader\AnnotatedRoutesBootloader::class,
 //        Framework\Http\CookiesBootloader::class,
 //        Framework\Http\SessionBootloader::class,
 //        Framework\Http\CsrfBootloader::class,
