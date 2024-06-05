@@ -1,0 +1,38 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php app.php"
+  relay: pipes
+
+jobs:
+  pool:
+    command: "php app.php"
+    num_workers: 7
+    debug: false
+  consume:
+    - local
+    - kafka_consume
+  pipelines:
+    local:
+      driver: "memory"
+      config:
+        priority: 9
+        prefetch: 3
+    # consume
+    kafka_consume:
+      driver: kafka
+      config:
+        consumer_options:
+          consumer_offset: { type: AtEnd }
+          topics:
+            - "sas.foo-bar"
+        group_options:
+          group_id: "sas.consumer"
+
+logs:
+  mode: development
+  level: debug
+  encoding: console

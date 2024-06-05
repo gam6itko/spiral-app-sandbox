@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace AppConsumer;
 
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
@@ -50,8 +50,8 @@ class Kernel extends \Spiral\Framework\Kernel
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,
-        Framework\Http\RouterBootloader::class,
-        Framework\Http\JsonPayloadsBootloader::class,
+//        Framework\Http\RouterBootloader::class,
+//        Framework\Http\JsonPayloadsBootloader::class,
 //        Framework\Http\CookiesBootloader::class,
 //        Framework\Http\SessionBootloader::class,
 //        Framework\Http\CsrfBootloader::class,

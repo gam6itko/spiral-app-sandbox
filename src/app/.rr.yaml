@@ -7,10 +7,26 @@ server:
   command: "php app.php"
   relay: pipes
 
+http:
+  pool:
+    num_workers: 1
+    debug: false
+  address: 0.0.0.0:8080
+  middleware: [ "otel" ]
+  otel:
+    insecure: true
+    compress: false
+    client: http
+    exporter: otlp
+    service_name: app-producer # your app name
+    service_version: 0.1.0
+    endpoint: collector:4318
+
+
 jobs:
   pool:
     command: "php app.php"
-    num_workers: 7
+    num_workers: 1
     debug: false
   consume:
     - local
@@ -20,6 +36,12 @@ jobs:
       config:
         priority: 9
         prefetch: 3
+    # produce
+    kafka_produce:
+      driver: kafka
+      config:
+        auto_create_topics_enable: true
+        topic: "sas.foo-bar"
 
 logs:
   mode: development
