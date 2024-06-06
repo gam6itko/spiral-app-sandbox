@@ -10,6 +10,17 @@ server:
   command: "php app.php"
   relay: pipes
 
+otel:
+  resource:
+    service_name: "rr_app_consumer"
+    service_version: "1.0.0"
+    service_namespace: "spiral-app-sandbox"
+    service_instance_id: "UUID"
+  insecure: true
+  compress: false
+  exporter: otlp
+  endpoint: collector:4318
+
 jobs:
   pool:
 #    command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"

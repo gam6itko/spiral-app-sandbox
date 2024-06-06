@@ -52,7 +52,14 @@ jobs:
         auto_create_topics_enable: true
         topic: "sas.foo-bar"
 
+
 logs:
   mode: development
   level: debug
   encoding: console
+
+
+kv:
+  local:
+    driver: memory
+    config: { }
