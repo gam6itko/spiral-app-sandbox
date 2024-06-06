@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Spiral\RoadRunner\Jobs\Queue\KafkaCreateInfo;
 use Spiral\RoadRunner\Jobs\Queue\MemoryCreateInfo;
 
 return [
@@ -39,20 +38,16 @@ return [
             'connector' => new MemoryCreateInfo('local'),
             'consume' => true,
         ],
-        'kafka' => [
-            // эти работы должен выполнять rr из сервиса appenss
-            'consume' => false,
-            'connector' => new KafkaCreateInfo(
-                name: 'kafka_produce',
-            ),
-            'options' => new \Spiral\RoadRunner\Jobs\KafkaOptions(
-                topic: 'sas.foo-bar',
-            ),
-        ],
     ],
 
     'driverAliases' => [
         'sync' => \Spiral\Queue\Driver\SyncDriver::class,
         'roadrunner' => \Spiral\RoadRunnerBridge\Queue\Queue::class,
+    ],
+
+    'registry' => [
+        'handlers' => [
+            'foo-bar' => \AppConsumer\Job\FooBarJobHandler::class
+        ],
     ],
 ];

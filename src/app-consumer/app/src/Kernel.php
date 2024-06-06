@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace AppConsumer;
 
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
@@ -33,11 +33,10 @@ class Kernel extends \Spiral\Framework\Kernel
         Monolog\MonologBootloader::class,
 
         // RoadRunner
-        RoadRunnerBridge\HttpBootloader::class,
-        RoadRunnerBridge\GRPCBootloader::class,
-        RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\CacheBootloader::class,
-        RoadRunnerBridge\CommandBootloader::class,
+        // RoadRunnerBridge\GRPCBootloader::class,
+        RoadRunnerBridge\HttpBootloader::class,
+        RoadRunnerBridge\QueueBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,
@@ -51,9 +50,8 @@ class Kernel extends \Spiral\Framework\Kernel
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,
-        Framework\Http\RouterBootloader::class,
-        Framework\Http\JsonPayloadsBootloader::class,
-        \Spiral\Router\Bootloader\AnnotatedRoutesBootloader::class,
+//        Framework\Http\RouterBootloader::class,
+//        Framework\Http\JsonPayloadsBootloader::class,
 //        Framework\Http\CookiesBootloader::class,
 //        Framework\Http\SessionBootloader::class,
 //        Framework\Http\CsrfBootloader::class,
