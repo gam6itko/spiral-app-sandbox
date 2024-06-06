@@ -11,8 +11,14 @@ use Spiral\Router\Annotation\Route;
 
 class HomeController
 {
+    #[Route(route: '/', methods: 'GET')]
+    public function insedAction(): string
+    {
+        return 'Hello';
+    }
+
     #[Route(route: '/produce/kafka', methods: 'GET')]
-    public function indexAction(QueueManager $qm): ResponseInterface
+    public function produceKafkaAction(QueueManager $qm): ResponseInterface
     {
         $qm->getConnection('roadrunner')
             ->push(
@@ -35,7 +41,7 @@ class HomeController
     }
 
     #[Route(route: '/produce/local', methods: 'GET')]
-    public function localAction(QueueManager $qm): ResponseInterface
+    public function produceLocalAction(QueueManager $qm): ResponseInterface
     {
         $qm->getConnection('roadrunner')
             ->push(
