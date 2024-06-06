@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Job\SleepJob;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Queue\Options;
@@ -16,14 +17,40 @@ class HomeController
         $qm->getConnection('roadrunner')
             ->push(
                 'foo-bar',
-                ['foo' => 'bar'],
+                [
+                    'foo' => 'bar',
+                    'time' => time(),
+                ],
                 Options::onQueue('kafka')
             );
 
         return new Response(
             status: 200,
             headers: ['Content-Type' => 'application/json'],
-            body: \json_encode(['ok' => true])
+            body: \json_encode([
+                'ok' => true,
+                'time' => time(),
+            ])
+        );
+    }
+
+    #[Route(route: '/produce/local', methods: 'GET')]
+    public function localAction(QueueManager $qm): ResponseInterface
+    {
+        $qm->getConnection('roadrunner')
+            ->push(
+                SleepJob::class,
+                ['seconds' => 2],
+                Options::onQueue('local')
+            );
+
+        return new Response(
+            status: 200,
+            headers: ['Content-Type' => 'application/json'],
+            body: \json_encode([
+                'ok' => true,
+                'time' => time(),
+            ])
         );
     }
 

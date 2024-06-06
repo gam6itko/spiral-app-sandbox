@@ -13,20 +13,23 @@ server:
 #    - XDEBUG_CONFIG: idekey='PHPSTORM'
 #    - XDEBUG_MODE: debug
 
+otel:
+  resource:
+    service_name: "rr_app_producer"
+    service_version: "1.0.0"
+    service_namespace: "spiral-app-sandbox"
+    service_instance_id: "UUID"
+  insecure: true
+  compress: false
+  exporter: otlp
+  endpoint: collector:4318
+
 http:
   pool:
     num_workers: 1
     debug: true
   address: 0.0.0.0:8080
   middleware: [ "otel" ]
-  otel:
-    insecure: true
-    compress: false
-    client: http
-    exporter: otlp
-    service_name: be-pub
-    service_version: 0.1.0
-    endpoint: otel-collector:4318
 
 
 jobs:
