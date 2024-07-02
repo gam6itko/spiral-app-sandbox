@@ -18,6 +18,9 @@ class User
     #[Cycle\Relation\HasOne(target: Passport::class, nullable: true, outerKey: 'user_id')]
     public ?Passport $passport = null;
 
+    #[Cycle\Relation\HasMany(target: Post::class, outerKey: 'user_id', fkCreate: false)]
+    public array $posts = [];
+
     public function __construct(string $username)
     {
         $this->username = $username;

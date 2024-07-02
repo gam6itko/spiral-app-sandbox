@@ -15,8 +15,8 @@ class BanIp
     #[Cycle\Column(type: 'integer', unsigned: true)]
     public int $ipV4;
 
-    #[Cycle\Relation\HasMany(target: BanUser::class, fkCreate: false, indexCreate: false, outerKey: 'mute_ip_id')]
-    public array $muteUsers = [];
+    #[Cycle\Relation\HasMany(target: BanUser::class, fkCreate: false, indexCreate: false, outerKey: 'ban_ip_id')]
+    public array $banUsers = [];
 
     public function __construct(int $ipV4)
     {
