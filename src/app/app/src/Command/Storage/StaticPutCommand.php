@@ -13,11 +13,14 @@ use Spiral\Storage\StorageInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[Console\AsCommand(
-    name: 'app:storage:minio-put',
-    description: 'Put file to minio S3'
+    name: 'app:storage:static-put',
+    description: 'Put file local'
 )]
-final class MinioPutCommand extends Command
+final class StaticPutCommand extends Command
 {
+    #[Console\Argument(name: 'bucket')]
+    private string $bucket = 'local';
+
     protected function perform(
         OutputInterface $output,
         DirectoriesInterface $dir,
@@ -26,12 +29,14 @@ final class MinioPutCommand extends Command
     ): void {
         $filepath = $dir->get('resources') . 'fuu.jpg';
         $file = $storage
-            ->bucket('s3')
+            ->bucket($this->bucket)
             ->write(
                 pathname: Uuid::uuid7()->toString(),
                 content: \fopen($filepath, 'rb+'),
             );
-        $link = $distribution->resolver('s3')->resolve($file->getPathname());
+        $link = $distribution
+            ->resolver('local')
+            ->resolve($file->getPathname());
         $output->writeln("URL: $link");
     }
 }

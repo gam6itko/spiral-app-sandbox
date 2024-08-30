@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class CountryTranslationCommand extends Command
 {
-
     public function __construct(
         private readonly ORMInterface $orm
     )

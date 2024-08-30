@@ -62,10 +62,8 @@ fileserver:
   weak: false
   stream_request_body: true
   serve:
-    - prefix: "/upload"
-      root: "./runtime/static/upload"
-    - prefix: "/img"
-      root: "./runtime/static/img"
+    - prefix: "/"
+      root: "./runtime/static"
 
 logs:
   mode: development

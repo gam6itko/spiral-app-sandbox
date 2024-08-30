@@ -35,6 +35,7 @@ services:
       PHP_IDE_CONFIG: serverName=app
     ports:
       - "8080:8080"
+      - "10101:10101"
 
   app-consumer:
     build: ./docker/roadrunner
