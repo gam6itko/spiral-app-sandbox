@@ -15,7 +15,7 @@ return [
             'adapter' => 's3',
             'endpoint' => env('S3_ENDPOINT', 'http://minio:9000'),
             'region' => env('S3_REGION'),
-            'bucket' => env('S3_BUCKET'),
+            'bucket' => env('S3_BUCKET', 'sandbox'),
             'key' => env('S3_KEY'),
             'secret' => env('S3_SECRET'),
         ],
