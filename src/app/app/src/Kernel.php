@@ -84,5 +84,8 @@ class Kernel extends \Spiral\Framework\Kernel
         ProfilerBootloader::class,
 
         \Spiral\OpenTelemetry\Bootloader\OpenTelemetryBootloader::class,
+
+        \Spiral\Storage\Bootloader\StorageBootloader::class,
+        \Spiral\Distribution\Bootloader\DistributionBootloader::class,
     ];
 }
