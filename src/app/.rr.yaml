@@ -7,11 +7,11 @@ kafka:
   brokers: [ "kafka:9092" ]
 
 server:
-  command: "php app.php"
-#  command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"
-#  env:
-#    - XDEBUG_CONFIG: idekey='PHPSTORM'
-#    - XDEBUG_MODE: debug
+#  command: "php app.php"
+  command: "php -d xdebug.client_host=172.18.0.1 -d memory_limit=-1 app.php"
+  env:
+    - XDEBUG_CONFIG: idekey='PHPSTORM'
+    - XDEBUG_MODE: debug
 
 otel:
   resource:
@@ -30,7 +30,6 @@ http:
     debug: true
   address: 0.0.0.0:8080
   middleware: [ "otel" ]
-
 
 jobs:
   pool:
@@ -52,14 +51,21 @@ jobs:
         auto_create_topics_enable: true
         topic: "sas.foo-bar"
 
+kv:
+  local:
+    driver: memory
+    config: { }
+
+fileserver:
+  address: 0.0.0.0:10101
+  calculate_etag: true
+  weak: false
+  stream_request_body: true
+  serve:
+    - prefix: "/"
+      root: "./runtime/static"
 
 logs:
   mode: development
   level: debug
   encoding: console
-
-
-kv:
-  local:
-    driver: memory
-    config: { }
