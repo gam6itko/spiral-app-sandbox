@@ -20,3 +20,11 @@ docker-compose up -d
 ```shell
 docker-compose exec app  php app.php rr:jobs:list
 ```
+
+
+### dev help
+
+```shell
+# Узнаём подсеть. В последний октет заменяем на единицу (1 - host machine).
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sas-mysql
+```
