@@ -42,6 +42,7 @@ services:
       PHP_IDE_CONFIG: serverName=app
     ports:
       - "8080:8080"
+      - "10101:10101"
 
   app-consumer:
     build: ./docker/roadrunner
@@ -119,6 +120,22 @@ services:
     ports:
       - "9411:9411"
 
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: sas-minio
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio:/data
+    ports:
+      - "9000:9000" # phpStorm may listen this port
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    profiles:
+      - minio
+
 volumes:
   mysql: ~
   kafka: ~
+  minio: ~
