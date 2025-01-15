@@ -1,5 +1,4 @@
-# syntax=docker/dockerfile:1.4
-FROM php:8.2-cli-alpine3.18
+FROM php:8.3-cli-alpine3.20
 
 RUN apk add git wget
 

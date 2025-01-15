@@ -14,6 +14,7 @@ use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Validation\Bootloader\ValidationBootloader;
 use Spiral\Cycle\Bootloader as CycleBridge;
+use Spiral\SendIt\Bootloader as SendIt;
 
 class Kernel extends \Spiral\Framework\Kernel
 {
@@ -78,6 +79,8 @@ class Kernel extends \Spiral\Framework\Kernel
         Framework\DebugBootloader::class,
         Framework\Debug\LogCollectorBootloader::class,
         Framework\Debug\HttpCollectorBootloader::class,
+
+        SendIt\MailerBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
 

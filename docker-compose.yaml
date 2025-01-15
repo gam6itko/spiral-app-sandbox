@@ -20,6 +20,12 @@ services:
       - "9912:9912"
       - "9913:9913"
 
+  trap:
+    build:
+      dockerfile: ./docker/trap/Dockerfile
+    environment:
+      TRAP_TCP_HOST: 0.0.0.0
+
   app:
     build: ./docker/roadrunner
     entrypoint: /docker-entrypoint.sh
@@ -28,6 +34,7 @@ services:
     depends_on:
       - mysql
       - kafka
+      - trap
     volumes:
       - ./src/app:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro

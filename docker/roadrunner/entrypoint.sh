@@ -9,4 +9,4 @@ fi
 
 php app.php cache:clean -v
 
-rr serve
+rr serve --silent
