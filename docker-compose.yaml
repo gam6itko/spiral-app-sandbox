@@ -32,9 +32,12 @@ services:
     container_name: sas-app
     working_dir: /srv
     depends_on:
-      - mysql
-      - kafka
-      - trap
+      mysql:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+      trap:
+        condition: service_started
     volumes:
       - ./src/app:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
@@ -56,6 +59,9 @@ services:
       PHP_IDE_CONFIG: serverName=app-consumer
     ports:
       - "8081:8080"
+    depends_on:
+      kafka:
+        condition: service_healthy
 
   adminer:
     container_name: sas-adminer
@@ -93,6 +99,11 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     volumes:
       - kafka:/var/lib/zookeeper
+    healthcheck:
+      test: kafka-topics --bootstrap-server localhost:9092 --list
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   kafka-ui:
     container_name: sas-kafka-ui
