@@ -1,4 +1,4 @@
-<extends:sendit:builder subject="Producer greetings"/>
+<extends:sendit:builder subject="{{ $subject }}"/>
 
 <use:bundle path="sendit:bundle"/>
 

@@ -33,7 +33,7 @@ http:
 
 jobs:
   pool:
-    command: "php app.php"
+    command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"
     num_workers: 1
   consume:
     - local

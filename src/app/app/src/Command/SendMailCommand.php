@@ -16,6 +16,8 @@ final class SendMailCommand extends Command
 {
     protected function perform(MailerInterface $mailer): void
     {
+       $letters = implode('', range('A', 'Z')).'- ';//30
+
         $mailer->send(
             new Message(
                 subject: 'hello.dark.php',
@@ -23,6 +25,9 @@ final class SendMailCommand extends Command
                     'User1 <gam6itko@mail.ru>',
                     'User2 <gam6itko@gmail.com>',
                     'User3 <gam6itko@yandex.ru>',
+                ],
+                data: [
+                    'subject' => \str_repeat($letters, 5),
                 ],
             ),
         );
