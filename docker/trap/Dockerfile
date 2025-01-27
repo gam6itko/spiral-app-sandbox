@@ -11,6 +11,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /srv
 
 RUN mkdir -p ./runtime/body
-RUN composer require buggregator/trap:^1.13
+RUN composer require buggregator/trap:^1.13.3
 
 ENTRYPOINT ["./vendor/bin/trap", "-sconsole", "-smail-to-file"]

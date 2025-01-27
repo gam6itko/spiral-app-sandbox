@@ -7,6 +7,7 @@ namespace App;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\DotEnv\Bootloader as DotEnv;
+use Spiral\League\Event\Bootloader\EventBootloader;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
 use Spiral\Profiler\ProfilerBootloader;
@@ -39,6 +40,8 @@ class Kernel extends \Spiral\Framework\Kernel
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\CacheBootloader::class,
         RoadRunnerBridge\CommandBootloader::class,
+
+        EventBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,

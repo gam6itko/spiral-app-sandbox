@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb8085f84eadc9f88e51e021b61c5d8e",
+    "content-hash": "2b7805465c392b5219b98b201dfef796",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1830,6 +1830,65 @@
                 }
             ],
             "time": "2024-07-18T11:15:46+00:00"
+        },
+        {
+            "name": "league/event",
+            "version": "3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/event.git",
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "provide": {
+                "psr/event-dispatcher-implementation": "1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.45",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Event package",
+            "keywords": [
+                "emitter",
+                "event",
+                "listener"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/event/issues",
+                "source": "https://github.com/thephpleague/event/tree/3.0.3"
+            },
+            "time": "2024-09-04T16:06:53+00:00"
         },
         {
             "name": "league/flysystem",
@@ -4284,6 +4343,62 @@
                 }
             ],
             "time": "2024-08-06T12:07:48+00:00"
+        },
+        {
+            "name": "spiral-packages/league-event",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spiral-packages/league-event.git",
+                "reference": "ef6e87e2e5a2d12ecfc92e99a6e6f0aec72f7aaf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spiral-packages/league-event/zipball/ef6e87e2e5a2d12ecfc92e99a6e6f0aec72f7aaf",
+                "reference": "ef6e87e2e5a2d12ecfc92e99a6e6f0aec72f7aaf",
+                "shasum": ""
+            },
+            "require": {
+                "league/event": "^3.0",
+                "php": "^8.1",
+                "spiral/events": "^3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^9.5",
+                "roave/security-advisories": "dev-latest",
+                "spiral/testing": "^2.0",
+                "vimeo/psalm": "^4.22"
+            },
+            "type": "library",
+            "extra": {
+                "spiral": {
+                    "bootloaders": [
+                        "Spiral\\League\\Event\\Bootloader\\EventBootloader"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\League\\Event\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The League Event bridge for Spiral Framework",
+            "homepage": "https://github.com/spiral-packages/symfony-event-dispatcher",
+            "keywords": [
+                "event-dispatcher",
+                "spiral",
+                "spiral-packages"
+            ],
+            "support": {
+                "issues": "https://github.com/spiral-packages/league-event/issues",
+                "source": "https://github.com/spiral-packages/league-event/tree/1.0.1"
+            },
+            "time": "2022-09-14T08:02:26+00:00"
         },
         {
             "name": "spiral-packages/profiler",
@@ -7927,13 +8042,13 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.2",
         "ext-mbstring": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

@@ -31,5 +31,5 @@ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sas-
 
 # cli debug
 ```shell
-php -d xdebug.mode=debug -d xdebug.start_with_request=1 -d xdebug.client_host=172.19.0.1 app.php
+php -d xdebug.mode=debug -d xdebug.start_with_request=1 -d xdebug.client_host=172.19.0.1 app.php app:send-mail
 ```
