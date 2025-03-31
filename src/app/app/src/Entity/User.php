@@ -21,6 +21,9 @@ class User
     #[Cycle\Relation\HasMany(target: Post::class, outerKey: 'user_id', fkCreate: false)]
     public array $posts = [];
 
+    #[Cycle\Relation\HasOne(target: VisitPermission::class, fkCreate: false, outerKey: 'user_id')]
+    public ?VisitPermission $visitPermission = null;
+
     public function __construct(string $username)
     {
         $this->username = $username;

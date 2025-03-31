@@ -27,6 +27,9 @@ class Country
     #[Cycle\Relation\HasMany(target: CountryTranslation::class)]
     public array $translations = [];
 
+    #[Cycle\Relation\HasMany(target: City::class)]
+    public array $cities = [];
+
     public function __construct(string $code)
     {
         $this->code = $code;

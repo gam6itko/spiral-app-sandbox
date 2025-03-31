@@ -11,6 +11,10 @@
     "require": {
         "php": ">=8.2",
         "ext-mbstring": "*",
+        "cycle/database": "^2.13.0",
+        "cycle/migrations": "^4.2.5",
+        "cycle/orm": "~2.9.3",
+        "cycle/schema-builder": "^2.11.1",
         "doctrine/collections": "^1.8",
         "gam6itko/cycle-nyholm-dsn-bridge": "^0.1.0",
         "league/flysystem-aws-s3-v3": "^3.28",
@@ -37,8 +41,9 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
+            "php-http/discovery": true,
             "spiral/composer-publish-plugin": true,
-            "php-http/discovery": true
+            "tbachert/spi": true
         }
     },
     "minimum-stability": "dev",
