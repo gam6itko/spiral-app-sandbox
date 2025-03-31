@@ -9,9 +9,6 @@ use Cycle\Annotated\Annotation as Cycle;
 #[Cycle\Entity(table: 'user_visit_permission')]
 class VisitPermission
 {
-    /**
-     * OneToOne
-     */
     #[Cycle\Column(type: 'integer', primary: true, name: 'user_id', unsigned: true)]
     public int $user_id;
 
@@ -21,9 +18,6 @@ class VisitPermission
     #[Cycle\Column(type: 'timestamp', name: 'created_at')]
     protected \DateTimeInterface $createdAt;
 
-    /**
-     * Разрещено работать со всеми городами.
-     */
     #[Cycle\Column(type: 'boolean', default: false)]
     public bool $allCities = false;
 
