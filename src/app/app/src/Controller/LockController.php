@@ -40,7 +40,7 @@ final class LockController
     #[Route(route: '/lock/roadrunner', methods: 'GET')]
     public function roadrunnerAction(): Response
     {
-        $id = $this->rrLock->lock('roadrunner');
+        $id = $this->rrLock->lock('roadrunner', waitTTL: 0.000_1);
         if (false === $id) {
             return $this->json(409, ['success' => false]);
         }
