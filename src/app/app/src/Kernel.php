@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Bootloader\LockBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\DotEnv\Bootloader as DotEnv;
@@ -94,4 +95,11 @@ class Kernel extends \Spiral\Framework\Kernel
         \Spiral\Storage\Bootloader\StorageBootloader::class,
         \Spiral\Distribution\Bootloader\DistributionBootloader::class,
     ];
+
+    protected function defineAppBootloaders(): array
+    {
+        return [
+            LockBootloader::class,
+        ];
+    }
 }
