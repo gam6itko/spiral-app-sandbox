@@ -7,11 +7,11 @@ kafka:
   brokers: [ "kafka:9092" ]
 
 server:
-#  command: "php app.php"
-  command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"
-  env:
-    - XDEBUG_CONFIG: idekey='PHPSTORM'
-    - XDEBUG_MODE: debug
+  command: "php app.php"
+#  command: "php -d xdebug.client_host=172.20.0.1 -d memory_limit=-1 app.php"
+#  env:
+#    - XDEBUG_CONFIG: idekey='PHPSTORM'
+#    - XDEBUG_MODE: debug
 
 #otel:
 #  resource:
@@ -25,9 +25,9 @@ server:
 #  endpoint: collector:4318
 
 http:
-  pool:
-    num_workers: 1
-    debug: true
+#  pool:
+#    num_workers: 1
+#    debug: true
   address: 0.0.0.0:8080
 #  middleware: [ "otel" ]
 

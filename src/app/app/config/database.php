@@ -26,7 +26,11 @@ return [
     'connections' => [
         'mysql.default' => new MySQLDriverConfig(
             connection: new NyholmDsnConnectionConfig(env('DATABASE_DEFAULT_DSN')),
-            queryCache: true
+            queryCache: true,
+            options: [
+                'logQueryParameters' => env('DEBUG', false),
+                'logInterpolatedQueries' => env('DEBUG', false),
+            ]
         ),
     ],
 ];

@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Issue;
 
 use App\Entity\City;
 use App\Entity\Country;
 use App\Entity\User;
-use App\Entity\VisitPermission;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select\Repository;
@@ -16,7 +15,7 @@ use Spiral\Console\Attribute as Console;
 use Spiral\Console\Command;
 
 #[Console\AsCommand(
-    name: 'app:load-bug',
+    name: 'app:issue:load-bug',
 )]
 class LoadBugCommand extends Command
 {

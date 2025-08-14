@@ -12,13 +12,14 @@ zipkin:         http://localhost:9411
 
 ## before start
 ```shell
-docker-compose up -d
+docker compose up -d
+docker compose exec app  php app.php cycle:sync
 ```
 
 ## queue consume issue
 
 ```shell
-docker-compose exec app  php app.php rr:jobs:list
+docker compose exec app  php app.php rr:jobs:list
 ```
 
 

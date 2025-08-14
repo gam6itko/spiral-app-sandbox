@@ -12,10 +12,10 @@ class Locale
     #[Cycle\Column(type: 'primary')]
     public ?int $id = null;
 
-    #[Cycle\Column(type: 'string(5)')]
+    #[Cycle\Column(type: 'string')]
     public string $code;
 
-    public function __construct(int $id, string $code)
+    public function __construct(?int $id, string $code)
     {
         $this->id = $id;
         $this->code = $code;

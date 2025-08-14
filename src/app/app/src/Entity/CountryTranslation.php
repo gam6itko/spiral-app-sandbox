@@ -24,6 +24,9 @@ class CountryTranslation
     #[Cycle\Relation\RefersTo(target: Locale::class, innerKey: 'locale_id')]
     public Locale $locale;
 
+    private ?int $country_id;
+    private ?int $locale_id;
+
     public function __construct(Country $country, Locale $locale, string $value)
     {
         $this->country = $country;
