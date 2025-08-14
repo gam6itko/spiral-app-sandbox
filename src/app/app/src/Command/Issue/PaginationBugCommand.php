@@ -46,30 +46,26 @@ final class PaginationBugCommand extends Command
 
         /** @var Repository $repo */
         $repo = $orm->getRepository(Country::class);
+
         $select = $repo->select();
         $paginator = (new Paginator($this->limit))
             ->withCount($select->count())
             ->paginate($select);
-        $rows = $select->fetchAll();
-        $output->writeln(\sprintf('1. Rows count: %d. Total: %d', \count($rows), $paginator->count()));
+        $output->writeln(\sprintf('1. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
 
-        $repo = $orm->getRepository(Country::class);
         $select = $repo->select()
             ->load('translations');
         $paginator = (new Paginator($this->limit))
             ->withCount($select->count())
             ->paginate($select);
-        $rows = $select->fetchAll();
-        $output->writeln(\sprintf('2. Rows count: %d. Total: %d', \count($rows), $paginator->count()));
+        $output->writeln(\sprintf('2. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
 
-        $repo = $orm->getRepository(Country::class);
         $select = $repo->select()
             ->load('translations')
             ->where('translations.locale_id', 1);
         $paginator = (new Paginator($this->limit))
             ->withCount($select->count())
             ->paginate($select);
-        $rows = $select->fetchAll();
-        $output->writeln(\sprintf('3. Rows count: %d. Total: %d', \count($rows), $paginator->count()));
+        $output->writeln(\sprintf('3. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
     }
 }
