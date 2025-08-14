@@ -24,8 +24,12 @@ class Country
     #[Cycle\Column(type: 'string', default: 'bar')]
     private string $camelCasePropertyBar;
 
+
+
     #[Cycle\Relation\HasMany(target: CountryTranslation::class)]
     public array $translations = [];
+
+
 
     #[Cycle\Relation\HasMany(target: City::class)]
     public array $cities = [];

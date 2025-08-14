@@ -30,8 +30,12 @@ final class PaginationBugCommand extends Command
     protected function perform(OutputInterface $output, ORMInterface $orm): void
     {
         if ($this->seed) {
+            $l = $orm->get(Locale::class, ['id' => 1]);
+            if (null === $l) {
+                $l = new Locale(null, \uniqid());
+                (new EntityManager($orm))->persist($l)->run();
+            }
             $t = new EntityManager($orm);
-            $l = new Locale(null, \uniqid());
             for ($i = 0; $i < 10; $i++) {
                 $c = new Country(\uniqid());
                 $t->persist($c);
@@ -48,24 +52,18 @@ final class PaginationBugCommand extends Command
         $repo = $orm->getRepository(Country::class);
 
         $select = $repo->select();
-        $paginator = (new Paginator($this->limit))
-            ->withCount($select->count())
-            ->paginate($select);
+        $paginator = (new Paginator($this->limit))->paginate($select);
         $output->writeln(\sprintf('1. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
 
         $select = $repo->select()
             ->load('translations');
-        $paginator = (new Paginator($this->limit))
-            ->withCount($select->count())
-            ->paginate($select);
+        $paginator = (new Paginator($this->limit))->paginate($select);
         $output->writeln(\sprintf('2. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
 
         $select = $repo->select()
             ->load('translations')
             ->where('translations.locale_id', 1);
-        $paginator = (new Paginator($this->limit))
-            ->withCount($select->count())
-            ->paginate($select);
+        $paginator = (new Paginator($this->limit))->paginate($select);
         $output->writeln(\sprintf('3. Rows count: %d. Total: %d', \count($select->fetchAll()), $paginator->count()));
     }
 }
