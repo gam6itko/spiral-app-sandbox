@@ -63,6 +63,20 @@ services:
       kafka:
         condition: service_healthy
 
+  charset-app:
+    build: ./docker/roadrunner
+    entrypoint: ["/docker-entrypoint.sh"]
+    container_name: sas-charset-app
+    working_dir: /srv
+    depends_on:
+      mysql:
+        condition: service_started
+    volumes:
+      - ./src/charset-app:/srv
+      - ./docker/charset-app/entrypoint.sh:/docker-entrypoint.sh:ro
+    environment:
+      DATABASE_DEFAULT_DSN: mysql://root:root@mysql:3306/app_sandbox
+
   adminer:
     container_name: sas-adminer
     image: adminer:5
