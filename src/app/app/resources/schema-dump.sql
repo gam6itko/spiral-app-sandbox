@@ -1,6 +1,6 @@
 -- Schema dump (Cycle ORM charset/collation check)
 -- Database: app_sandbox
--- Date: 2026-03-13 08:16:57
+-- Date: 2026-03-13 08:35:01
 
 CREATE TABLE `user_charset_check` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
