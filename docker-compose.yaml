@@ -34,10 +34,10 @@ services:
     depends_on:
       mysql:
         condition: service_started
-      kafka:
-        condition: service_healthy
-      trap:
-        condition: service_started
+      # kafka:
+      #   condition: service_healthy
+      # trap:
+      #   condition: service_started
     volumes:
       - ./src/app:/srv
       - ./docker/roadrunner/entrypoint.sh:/docker-entrypoint.sh:ro
@@ -59,23 +59,9 @@ services:
       PHP_IDE_CONFIG: serverName=app-consumer
     ports:
       - "8081:8080"
-    depends_on:
-      kafka:
-        condition: service_healthy
-
-  charset-app:
-    build: ./docker/roadrunner
-    entrypoint: ["/docker-entrypoint.sh"]
-    container_name: sas-charset-app
-    working_dir: /srv
-    depends_on:
-      mysql:
-        condition: service_started
-    volumes:
-      - ./src/charset-app:/srv
-      - ./docker/charset-app/entrypoint.sh:/docker-entrypoint.sh:ro
-    environment:
-      DATABASE_DEFAULT_DSN: mysql://root:root@mysql:3306/app_sandbox
+    # depends_on:
+    #   kafka:
+    #     condition: service_healthy
 
   adminer:
     container_name: sas-adminer

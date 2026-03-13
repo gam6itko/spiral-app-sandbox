@@ -6,13 +6,13 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class OrmDefaultB9ce859e98da7f50eb7a1baa8831eda6 extends Migration
+class OrmDefaultCreateUserCharsetCheck extends Migration
 {
     protected const DATABASE = 'default';
 
     public function up(): void
     {
-        $this->table('user')
+        $this->table('user_charset_check')
             ->addColumn('id', 'primary', [
                 'nullable' => false,
                 'defaultValue' => null,
@@ -37,6 +37,6 @@ class OrmDefaultB9ce859e98da7f50eb7a1baa8831eda6 extends Migration
 
     public function down(): void
     {
-        $this->table('user')->drop();
+        $this->table('user_charset_check')->drop();
     }
 }

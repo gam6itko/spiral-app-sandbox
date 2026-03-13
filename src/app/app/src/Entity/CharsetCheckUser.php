@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use Cycle\Annotated\Annotation as Cycle;
 
-#[Cycle\Entity(table: 'user')]
-class User
+#[Cycle\Entity(table: 'user_charset_check')]
+class CharsetCheckUser
 {
     #[Cycle\Column(type: 'primary', unsigned: true)]
     public ?int $id = null;
