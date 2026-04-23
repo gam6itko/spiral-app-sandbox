@@ -25,10 +25,10 @@ server:
 #  endpoint: collector:4318
 
 http:
-#  pool:
-#    num_workers: 1
-#    debug: true
   address: 0.0.0.0:8080
+  pool:
+    num_workers: 1
+#    debug: true
 #  middleware: [ "otel" ]
 
 jobs:
