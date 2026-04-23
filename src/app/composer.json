@@ -11,25 +11,25 @@
     "require": {
         "php": ">=8.2",
         "ext-mbstring": "*",
-        "cycle/database": "^2.13.0",
-        "cycle/migrations": "^4.2.5",
+        "cycle/database": "^2.16.0",
+        "cycle/migrations": "^4.2.6",
         "cycle/orm": "~2.9.3",
-        "cycle/schema-builder": "^2.11.1",
+        "cycle/schema-builder": "^2.11.2",
         "doctrine/collections": "^1.8",
         "gam6itko/cycle-nyholm-dsn-bridge": "^0.1.0",
-        "league/flysystem-aws-s3-v3": "^3.28",
-        "open-telemetry/exporter-otlp": "^1.0",
-        "roadrunner-php/symfony-lock-driver": "^1.0",
-        "spiral-packages/league-event": "^1.0",
-        "spiral/cycle-bridge": "^2.5",
-        "spiral/framework": "^3.9",
+        "league/flysystem-aws-s3-v3": "^3.32",
+        "open-telemetry/exporter-otlp": "^1.4",
+        "roadrunner-php/symfony-lock-driver": "^1.1.1",
+        "spiral-packages/league-event": "^1.0.1",
+        "spiral/cycle-bridge": "^2.11.1",
+        "spiral/framework": "^3.16.2",
         "spiral/nyholm-bridge": "^1.3",
-        "spiral/otel-bridge": "^1.2",
+        "spiral/otel-bridge": "^1.2.3",
         "spiral/profiler": "^3.2",
-        "spiral/roadrunner-bridge": "^3.0"
+        "spiral/roadrunner-bridge": "^3.8"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.3.6"
+        "symfony/var-dumper": "^6.4.36"
     },
     "autoload": {
         "psr-4": {
