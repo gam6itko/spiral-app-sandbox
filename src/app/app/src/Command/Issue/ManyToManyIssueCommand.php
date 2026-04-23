@@ -18,17 +18,8 @@ use Spiral\Console\Attribute as Console;
 )]
 class ManyToManyIssueCommand extends Command
 {
-    public function __construct(
-        private readonly ORMInterface $orm,
-        private readonly LoggerInterface $logger,
-    )
+    protected function perform(ORMInterface $orm): void
     {
-        parent::__construct();
-    }
-
-    protected function perform(OutputInterface $output, ORMInterface $orm): void
-    {
-
         $pipeline = new Pipeline();
 
         $taskBB = new PipelineJob($pipeline, 'base');
@@ -36,6 +27,6 @@ class ManyToManyIssueCommand extends Command
 
         $pipeline->addJob(new PipelineJob($pipeline, 'job_with_dep', [$taskBB]));
 
-        (new EntityManager($this->orm))->persist($pipeline)->run();
+        (new EntityManager($orm))->persist($pipeline)->run();
     }
 }
