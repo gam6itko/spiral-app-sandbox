@@ -47,7 +47,8 @@ return [
 
     'registry' => [
         'handlers' => [
-            'foo-bar' => \AppConsumer\Job\FooBarJobHandler::class
+            'foo-bar' => \AppConsumer\Job\FooBarJobHandler::class,
+            \AppConsumer\Job\RetryDelayJobHandler::NAME => \AppConsumer\Job\RetryDelayJobHandler::class,
         ],
     ],
 ];
