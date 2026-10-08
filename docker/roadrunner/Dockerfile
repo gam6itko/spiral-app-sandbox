@@ -9,7 +9,7 @@ COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensio
 RUN install-php-extensions opcache pdo_mysql sockets xdebug xhprof \
     && apk del --no-cache  ${PHPIZE_DEPS} ${BUILD_DEPENDS}
 
-COPY --from=spiralscout/roadrunner:latest /usr/bin/rr /usr/bin/rr
+COPY --from=spiralscout/roadrunner:2025.1.15 /usr/bin/rr /usr/bin/rr
 
 # Host system user id
 ARG UID=1000
