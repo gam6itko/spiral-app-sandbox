@@ -51,6 +51,12 @@ return [
         ],
     ],
 
+    'registry' => [
+        'handlers' => [
+            'retry-delay' => \App\Job\RetryDelayObserverJob::class,
+        ],
+    ],
+
     'driverAliases' => [
         'sync' => \Spiral\Queue\Driver\SyncDriver::class,
         'roadrunner' => \Spiral\RoadRunnerBridge\Queue\Queue::class,

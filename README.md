@@ -39,7 +39,7 @@ php -d xdebug.mode=debug -d xdebug.start_with_request=1 -d xdebug.client_host=17
 
 RoadRunner `v2025.1.15` (kafka driver `v5.2.5`, jobs `v5.1.9`). `RetryException` with `withDelay(10)` is requeued by the kafka driver immediately: `kafkajobs/item.go` — `func (i *Item) Requeue(headers map[string][]string, _ int)` drops the delay, and the copy is re-produced into the source topic (seen by every consumer group of the topic). The memory driver honors the same delay.
 
-Handler: `src/app-consumer/app/src/Job/RetryDelayJobHandler.php` — throws `RetryException` (delay 10s) 3 times and logs seconds since the previous attempt.
+Handler: `src/app-consumer/app/src/Job/RetryDelayJob.php` — throws `RetryException` (delay 10s) 3 times and logs seconds since the previous attempt.
 
 ```shell
 docker compose up -d
@@ -65,3 +65,21 @@ Result:
 ```
 
 RR log shows `job was re-queued {"delay": 10, ...}` for each kafka retry, topic end offset grows by 4 (1 original + 3 requeued copies). Note: the consumer group must be joined before producing (`consumer_offset: AtEnd`), otherwise the message is skipped.
+
+### requeue copies reach other consumer groups
+
+`app` also consumes `sas.foo-bar` with its own group `sas.observer` (`kafka_observe` pipeline) and only logs `retry-delay` records (`src/app/app/src/Job/RetryDelayObserverJob.php`). It never fails, yet it receives the same message once per requeue made by `app-consumer` (group `sas.consumer`):
+
+```
+# app-consumer, group sas.consumer
+[retry-delay] via=kafka id=83c9a3a2-... attempt=0 since_prev=0.05s
+[retry-delay] via=kafka id=83c9a3a2-... attempt=1 since_prev=0.63s
+[retry-delay] via=kafka id=83c9a3a2-... attempt=2 since_prev=0.57s
+[retry-delay] via=kafka id=83c9a3a2-... attempt=3 since_prev=0.63s
+
+# app, group sas.observer
+[retry-delay-observer] id=83c9a3a2-... x-attempt=-
+[retry-delay-observer] id=83c9a3a2-... x-attempt=1
+[retry-delay-observer] id=83c9a3a2-... x-attempt=2
+[retry-delay-observer] id=83c9a3a2-... x-attempt=3
+```

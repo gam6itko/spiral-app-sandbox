@@ -18,7 +18,7 @@ use Spiral\Queue\Options;
  * Expected: "since_prev" ~ RETRY_DELAY seconds for every retry.
  * memory pipeline: OK. kafka pipeline: retries arrive immediately (delay ignored).
  */
-final class RetryDelayJobHandler implements HandlerInterface
+final class RetryDelayJob implements HandlerInterface
 {
     public const string NAME = 'retry-delay';
     private const int RETRY_DELAY = 10;

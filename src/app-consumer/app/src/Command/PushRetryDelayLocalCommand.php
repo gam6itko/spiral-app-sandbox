@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AppConsumer\Command;
 
-use AppConsumer\Job\RetryDelayJobHandler;
+use AppConsumer\Job\RetryDelayJob;
 use Spiral\Console\Attribute as Console;
 use Spiral\Console\Command;
 use Spiral\Queue\Options;
@@ -22,7 +22,7 @@ final class PushRetryDelayLocalCommand extends Command
     protected function perform(QueueConnectionProviderInterface $queues): int
     {
         $queues->getConnection('roadrunner')->push(
-            RetryDelayJobHandler::NAME,
+            RetryDelayJob::NAME,
             ['via' => 'local', 'sent_at' => \microtime(true)],
             Options::onQueue('local'),
         );

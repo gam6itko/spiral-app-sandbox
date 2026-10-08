@@ -11,7 +11,7 @@ use Spiral\Queue\QueueConnectionProviderInterface;
 
 /**
  * Pushes a retry-delay job into kafka topic `sas.foo-bar`; it is consumed by app-consumer
- * (see AppConsumer\Job\RetryDelayJobHandler).
+ * (see AppConsumer\Job\RetryDelayJob).
  */
 #[Console\AsCommand(
     name: 'app:issue:retry-delay:kafka',
