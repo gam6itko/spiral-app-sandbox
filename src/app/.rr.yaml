@@ -37,6 +37,7 @@ jobs:
     num_workers: 1
   consume:
     - local
+    - kafka_observe
   pipelines:
     local:
       driver: "memory"
@@ -49,6 +50,16 @@ jobs:
       config:
         auto_create_topics_enable: true
         topic: "sas.foo-bar"
+    # Second consumer group on the same topic: only logs what it receives (see RetryDelayObserverJob).
+    kafka_observe:
+      driver: kafka
+      config:
+        consumer_options:
+          consumer_offset: { type: AtEnd }
+          topics:
+            - "sas.foo-bar"
+        group_options:
+          group_id: "sas.observer"
 
 kv:
   local:
